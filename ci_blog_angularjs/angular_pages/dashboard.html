@@ -1,0 +1,27 @@
+<div class="row">	
+    <h1 class="subheader">Bienvenido {{ userLogued}}</h1>
+    <a href="#/add" class="button success">Crear un post</a>
+    <button ng-click="logout()" class="button alert">Cerrar sesión</button>
+    <ul class="panel secondary radius">
+        <!--si no hay posts mostramos un mensaje-->
+        <div class="small-12 columns" ng-if="response == 'empty'" style="margin-top:-12px; text-align:center">
+            Actualmente no hay ningún post
+        </div>
+        <!--si hay posts los mostramos, no es necesario, pero sirve para ver el if-->
+        <li ng-repeat="post in allPosts" class="panel callout radius" ng-if="response == 'filled'">
+
+            <div class="small-8 columns">
+                Id: {{ post.id}} Título: {{ post.title}} Contenido: {{ post.content}}
+            </div>
+
+            <!--gracias a la directiva ng-if comprobamos si el post es del usuario-->
+            <div class="small-4 columns" ng-if="post.user_id == userIdLogued">
+                <!--botón para editar el post-->
+                <a href="#/edit/{{ post.id}}" class="button secondary" style="margin-top:-12px">Editar</a>
+                <!--botón para eliminar el post-->
+                <button ng-click="removePost(post.id)" class="button alert" style="margin-top:-12px">Eliminar</button>
+            </div>
+
+        </li>
+    </ul>
+</div>

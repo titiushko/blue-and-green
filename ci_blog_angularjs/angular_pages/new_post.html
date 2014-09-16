@@ -1,0 +1,23 @@
+<div class="row"> 
+    <form>
+        <fieldset>
+            <legend>Crear un nuevo post</legend>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Nombre</label>
+                    <input type="text" placeholder="Título" ng-model="post.title" required>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="large-12 columns">
+                    <label>Contenido</label>
+                    <textarea required ng-model="post.content" placeholder="Contenido"></textarea>
+                </div>
+            </div>
+            <button type="submit" class="button large-12" ng-click="addPost(post)">Crear el post</button>
+            <a href="#/dashboard" class="button large-12 success">Volver al dashboard</a>
+        </fieldset>
+    </form>
+</div>
