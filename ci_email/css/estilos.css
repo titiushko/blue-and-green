@@ -1,0 +1,34 @@
+/* Por Israel Parra Conejero para los usuarios de www.uno-de-piera.com */
+fieldset{
+width:500px;
+border: 1px solid black;
+margin: 150px 0px 0px 500px;
+}
+legend{
+margin:0px 0px 0px 80px;
+width: 300px;
+border: 1px solid gray;
+background-color:#CCCC00;
+color:#fff;
+}
+table{
+margin:10px 0px 0px 65px;
+}
+input[type=text]{
+width:200px;
+height:20px;
+padding:4px;
+border-radius: 3px;
+}
+input[type=submit]{
+width:200px;
+height:20px;
+padding:4px;
+border-radius: 3px;
+}
+input[type=password]{
+width:200px;
+height:20px;
+padding:4px;
+border-radius: 3px;
+}
