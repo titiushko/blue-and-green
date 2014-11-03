@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `envio_correo`
+-- Base de datos: `ci_email`
 --
 
-DROP DATABASE IF EXISTS envio_correo;
+DROP DATABASE IF EXISTS ci_email;
 -- -------------------------------------------------------------------------------------
-CREATE DATABASE envio_correo DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
-USE envio_correo;
+CREATE DATABASE ci_email DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE ci_email;
 
 -- --------------------------------------------------------
 
