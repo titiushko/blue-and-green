@@ -23,6 +23,11 @@ SET time_zone = "+00:00";
 -- Base de datos: `angular_ci_blog`
 --
 
+DROP DATABASE IF EXISTS angular_ci_blog;
+-- -------------------------------------------------------------------------------------
+CREATE DATABASE angular_ci_blog DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE angular_ci_blog;
+
 -- --------------------------------------------------------
 
 --
