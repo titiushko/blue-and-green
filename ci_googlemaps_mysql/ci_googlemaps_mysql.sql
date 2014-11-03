@@ -15,11 +15,15 @@
 
 
 --
--- Create schema cimaps
+-- Base de datos: `ci_googlemaps_mysql`
 --
 
-CREATE DATABASE IF NOT EXISTS cimaps;
-USE cimaps;
+DROP DATABASE IF EXISTS ci_googlemaps_mysql;
+-- -------------------------------------------------------------------------------------
+CREATE DATABASE ci_googlemaps_mysql DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE ci_googlemaps_mysql;
+
+-- --------------------------------------------------------
 
 --
 -- Definition of table `mapa`
