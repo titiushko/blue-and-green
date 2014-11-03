@@ -3,8 +3,8 @@
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)$ /ci_googlemaps_mysql/index.php/$1 [L] 
+	RewriteRule ^(.*)$ /practicas/ci_googlemaps_mysql/index.php/$1 [L] 
 </IfModule>
 <IfModule !mod_rewrite.c>
-	ErrorDocument 404 /ci_googlemaps_mysql/index.php 
+	ErrorDocument 404 /practicas/ci_googlemaps_mysql/index.php 
 </IfModule>
