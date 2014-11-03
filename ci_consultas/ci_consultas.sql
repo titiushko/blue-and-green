@@ -17,13 +17,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `consultas_codeigniter`
+-- Base de datos: `ci_consultas`
 --
 
-DROP DATABASE IF EXISTS consultas_codeigniter;
+DROP DATABASE IF EXISTS ci_consultas;
 -- -------------------------------------------------------------------------------------
-CREATE DATABASE consultas_codeigniter DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
-USE consultas_codeigniter;
+CREATE DATABASE ci_consultas DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE ci_consultas;
 
 -- --------------------------------------------------------
 
