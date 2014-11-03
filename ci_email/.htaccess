@@ -1,9 +1,10 @@
 <IfModule mod_rewrite.c>
-    RewriteEngine On 
-    RewriteCond %{REQUEST_FILENAME} !-f 
-    RewriteCond %{REQUEST_FILENAME} !-d 
-    RewriteRule ^(.*)$ /envio_email_CI/index.php/$1 [L] 
+	Options +FollowSymLinks
+	RewriteEngine On
+	RewriteCond %{REQUEST_FILENAME} !-f
+	RewriteCond %{REQUEST_FILENAME} !-d
+	RewriteRule ^(.*)$ /ci_email/index.php/$1 [L] 
 </IfModule>
 <IfModule !mod_rewrite.c>
-    ErrorDocument 404 /envio_email_CI/index.php 
+	ErrorDocument 404 /ci_email/index.php 
 </IfModule>
