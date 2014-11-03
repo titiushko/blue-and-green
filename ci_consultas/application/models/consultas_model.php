@@ -13,12 +13,12 @@ class Consultas_model extends CI_Model
         if($id === false)
         {
             $this->db->select('u.username,u.fname,u.lname,u.register_date,e.titulo,e.entrada,e.publish_date');
-            $this->db->from('users_consultas u');
-            $this->db->join('entradas_consultas e', 'u.id = e.id_user');
+            $this->db->from('users u');
+            $this->db->join('entradas e', 'u.id = e.id_user');
         }else{
             $this->db->select('u.username,u.fname,u.lname,u.register_date,e.titulo,e.entrada,e.publish_date');
-            $this->db->from('users_consultas u');
-            $this->db->join('entradas_consultas e', 'u.id = e.id_user');
+            $this->db->from('users u');
+            $this->db->join('entradas e', 'u.id = e.id_user');
             $this->db->where('u.id',$id);
         }
         $query = $this->db->get();
@@ -33,12 +33,12 @@ class Consultas_model extends CI_Model
         if($id === false)
         {
             $this->db->select('u.username,c.titulo_comentario,c.comentario,c.comment_date');
-            $this->db->from('comentarios_consultas c');
-            $this->db->join('users_consultas u', 'c.id_user = u.id');
+            $this->db->from('comentarios c');
+            $this->db->join('users u', 'c.id_user = u.id');
         }else{
             $this->db->select('u.username,c.titulo_comentario,c.comentario,c.comment_date');
-            $this->db->from('comentarios_consultas c');
-            $this->db->join('users_consultas u', 'c.id_user = u.id');
+            $this->db->from('comentarios c');
+            $this->db->join('users u', 'c.id_user = u.id');
             $this->db->where('u.id',$id);
         }
         $query = $this->db->get();
@@ -50,7 +50,7 @@ class Consultas_model extends CI_Model
 
     public function consulta_encadendada($id)
     {
-        $this->db->select('username')->from('users_consultas')->where('id >=', $id)->limit(10, 20);
+        $this->db->select('username')->from('users')->where('id >=', $id)->limit(10, 20);
         $query = $this->db->get();
         if($query->num_rows() > 0 )
         {
@@ -61,7 +61,7 @@ class Consultas_model extends CI_Model
     public function search_users($string,$pos_comodin)
     {
         $this->db->like('username', $string, $pos_comodin);
-        $query = $this->db->get('users_consultas');
+        $query = $this->db->get('users');
         if($query->num_rows() > 0 )
         {
             return $query->result();
@@ -75,7 +75,7 @@ class Consultas_model extends CI_Model
 
     public function consulta_get_where($id)
     {
-        $query = $this->db->get_where('users_consultas',array('id' => $id));
+        $query = $this->db->get_where('users',array('id' => $id));
         if($query->num_rows() > 0 )
         {
             //veamos que sólo retornamos una fila con row(), no result()
@@ -91,12 +91,12 @@ class Consultas_model extends CI_Model
             'lname'          =>   'Pérez',
             'register_date'  =>    '2013-01-19 10:00:00'
             );
-            $this->db->insert('users_consultas',$data);
+            $this->db->insert('users',$data);
     }
 
     public function delete_user()
     {
-        $this->db->delete('users_consultas', array('id' => 1));
+        $this->db->delete('users', array('id' => 1));
     }
 
     public function update_user()
@@ -107,7 +107,7 @@ class Consultas_model extends CI_Model
             'lname' => 'sánchez'
         );
         $this->db->where('id', 3);
-        $this->db->update('users_consultas', $data);
+        $this->db->update('users', $data);
     }
 }
 /*

@@ -41,7 +41,7 @@ class Consultas extends CI_Controller
         $data['search_before_users'] = $this->consultas_model->search_users('5','before');
 
         //contamos los registros de la tabla que pasemos como argumento
-        $data['count_data'] = $this->consultas_model->count_results('users_consultas');
+        $data['count_data'] = $this->consultas_model->count_results('users');
 
         //hacemos uso de get_where haciendo toda la consulta en la misma línea y le
         //pasamos como argumento el id del usuario que queremos
