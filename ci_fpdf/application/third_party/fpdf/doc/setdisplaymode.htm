@@ -1,0 +1,45 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<html>
+<head>
+<meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+<title>SetDisplayMode</title>
+<link type="text/css" rel="stylesheet" href="fpdf.css">
+</head>
+<body>
+<h1>SetDisplayMode</h1>
+<code>SetDisplayMode(<b>mixed</b> zoom [, <b>string</b> layout])</code>
+<h2>Descripció</h2>
+Defineix com es mostrarà el document al visor. El nivell de zoom pot ser: les pàgines es poden
+mostrar senceres a la pantalla, acupar l'ample total de la finestra, usar el tamany real, proporcionar
+per un factor de zoom o usar el predeterminat del visor (configurat al menú de preferències de l'Adobe Reader).
+El format de la pàgina es pot especificar també: una cada cop, mostra contínua, dues columnes o el predeterminat
+del visor.
+<h2>Paràmetres</h2>
+<dl class="param">
+<dt><code>zoom</code></dt>
+<dd>
+El zoom a usar. Pot ser un dels valors de cadena següents:
+<UL>
+<LI><TT>fullpage</TT>: mostra la pàgina sencera a la pantalla</LI>
+<LI><TT>fullwidth</TT>: usa l'ample màxim de la pantalla</LI>
+<LI><TT>real</TT>: usa el tamany real (equival a zomm del 100%)</LI>
+<LI><TT>default</TT>: usa el mode predeterminat del visor</LI>
+</UL>
+o bé un número indicant el factor de zoom a usar.
+</dd>
+<dt><code>layout</code></dt>
+<dd>
+El format de pàgina. Els valors possibles són:
+<UL>
+<LI><TT>single</TT>: mostra una pàgina cada cop</LI>
+<LI><TT>continuous</TT>: mostra dues pàgines contínues</LI>
+<LI><TT>two</TT>: mostra dues pàgines en dues columnes</LI>
+<LI><TT>default</TT>: usa el mode predeterminat del visor</LI>
+</UL>
+El valor per defecte és <TT>default</TT>.
+</dd>
+</dl>
+<hr style="margin-top:1.5em">
+<div style="text-align:center"><a href="index.htm">Índex</a></div>
+</body>
+</html>
