@@ -20,13 +20,13 @@ SET time_zone = "+00:00";
 /*!40101 SET NAMES utf8 */;
 
 --
--- Base de datos: `angular_ci_blog`
+-- Base de datos: `ci_blog_angularjs`
 --
 
-DROP DATABASE IF EXISTS angular_ci_blog;
+DROP DATABASE IF EXISTS ci_blog_angularjs;
 -- -------------------------------------------------------------------------------------
-CREATE DATABASE angular_ci_blog DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
-USE angular_ci_blog;
+CREATE DATABASE ci_blog_angularjs DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE ci_blog_angularjs;
 
 -- --------------------------------------------------------
 
