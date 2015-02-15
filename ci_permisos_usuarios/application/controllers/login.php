@@ -1,9 +1,10 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 
-class Login extends CI_Controller {
+class Login extends MY_Controller {
 	public function __construct() {
 		parent::__construct();
 		$this->load->database('default');
+		$this->eliminar_cache();
 	}
 	
 	public function index() {
@@ -18,8 +19,8 @@ class Login extends CI_Controller {
 				break;
 			case 'administrador':
 				redirect(base_url().'admin');
-			break;
-				case 'editor':
+				break;
+			case 'editor':
 				redirect(base_url().'editor');
 				break;
 			case 'suscriptor':
@@ -51,8 +52,8 @@ class Login extends CI_Controller {
 						'perfil'		=>	$usuario->perfil,
 						'username' 		=> 	$usuario->username
 					);
-				$this->session->set_userdata($datos_sesion_usuario);
-				$this->index();
+					$this->session->set_userdata($datos_sesion_usuario);
+					$this->index();
 				}
 			}
 		}
