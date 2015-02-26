@@ -3,8 +3,8 @@
 	RewriteEngine On
 	RewriteCond %{REQUEST_FILENAME} !-f
 	RewriteCond %{REQUEST_FILENAME} !-d
-	RewriteRule ^(.*)$ /practicas/ci_selects_jquery/index.php/$1 [L] 
+	RewriteRule ^(.*)$ /practicas/codeigniter/ci_selects_jquery/index.php/$1 [L] 
 </IfModule>
 <IfModule !mod_rewrite.c>
-	ErrorDocument 404 /practicas/ci_selects_jquery/index.php 
+	ErrorDocument 404 /practicas/codeigniter/ci_selects_jquery/index.php 
 </IfModule>
