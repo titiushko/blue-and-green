@@ -1,6 +1,6 @@
-DROP DATABASE IF EXISTS ci_selects_jquery;
-CREATE DATABASE ci_selects_jquery DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
-USE ci_selects_jquery;
+DROP DATABASE IF EXISTS ci_autocompletado_jquery;
+CREATE DATABASE ci_autocompletado_jquery DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+USE ci_autocompletado_jquery;
 
 DROP TABLE IF EXISTS departamentos;
 CREATE TABLE IF NOT EXISTS departamentos (
