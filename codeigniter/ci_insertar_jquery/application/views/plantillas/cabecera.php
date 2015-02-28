@@ -3,7 +3,7 @@
 	<head>
 		<?php
 		$meta_informaciones = array(
-			array("name"	=>	"Content-type", "content"		=>	"text/html; charset=utf-8", "type" => "equiv")
+			array("name" =>	"Content-type", "content" => "text/html; charset=utf-8", "type" => "equiv")
 		);
 		echo meta($meta_informaciones);
 		?>

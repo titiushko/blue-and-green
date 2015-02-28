@@ -295,6 +295,3 @@ INSERT INTO municipios (codigo_municipio, codigo_departamento, nombre_municipio)
 (260, 14, 'Concepcion de Oriente'),
 (261, 14, 'Poloros'),
 (262, 14, 'Lislique');
-
-ALTER TABLE municipios
-ADD CONSTRAINT pertenece FOREIGN KEY (codigo_departamento) REFERENCES departamentos (codigo_departamento) ON DELETE CASCADE ON UPDATE CASCADE;
