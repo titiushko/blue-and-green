@@ -54,3 +54,28 @@ $(document).ready(function() {
 		});
 	}).change();
 });
+	/*
+	$("#centro-educativo").keyup(function() {
+		var respuesta = null;
+		$.ajax({
+			type:		"get",
+			datatype:	"json",
+			url:		"<?= base_url('ajax/lista_centros_educativos')?>",
+			cache:		false,
+			data:		{nombre_centro_educativo: $("#centro-educativo").val()},
+			error:		function(data) {
+							if(data != '') {
+								$('#resultado-centro-educativo').show();
+								$("#resultado-centro-educativo").html(data.responseText);
+							}
+			}
+		});
+	});
+	*/
+	/*
+	$("#resultado-centro-educativo").find('p').on('click', function(e) {
+		e.preventDefault();
+		$('#centro-educativo').val($(this).text());
+		$('#resultado-centro-educativo').hide();
+	});
+	*/

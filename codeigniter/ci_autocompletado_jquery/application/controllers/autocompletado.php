@@ -30,7 +30,7 @@ class Autocompletado extends CI_Controller {
 		if($this->input->is_ajax_request() && $this->input->post('nombre_departamento')) {
 			$nombre_departamento = $this->security->xss_clean($this->input->post('nombre_departamento'));
 			$municipios = $this->autocompletado_model->buscar_municipios($nombre_departamento);
-			if($departamentos !== FALSE) {
+			if($municipios !== FALSE) {
 				foreach($municipios as $municipio) {
 					echo '<option value="'.$municipio->codigo_municipio.'">'.$municipio->nombre_municipio.'</option>';
 				}
