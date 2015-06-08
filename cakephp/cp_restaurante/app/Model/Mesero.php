@@ -1,5 +1,7 @@
 <?php
 class Mesero extends AppModel {
+	public $virtualFields = array('nombre_completo' => 'CONCAT(Mesero.nombres, " ", Mesero.apellidos)');
+	
 	public $validate = array(
 		'dui' => array(
 			'notEmpty' => array(
@@ -30,7 +32,7 @@ class Mesero extends AppModel {
 			)
 		)
 	);
-
+	
 	public $hasMany = array(
 		'Mesa' => array(
 			'className' => 'Mesa',

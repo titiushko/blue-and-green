@@ -3,7 +3,7 @@ class MeserosController extends AppController {
 	public $helpers = array('Html', 'Form', 'Time');
 	public $components = array('Session');
 	
-	function index() {
+	public function index() {
 		$this->set('meseros', $this->Mesero->find('all'));
 	}
 	
@@ -48,8 +48,8 @@ class MeserosController extends AppController {
 			$this->Mesero->id = $id;
 			if ($this->Mesero->save($this->request->data)) {
 				$mesero = $this->Mesero->findById($id);
-				$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos']. ' actualizado.', 'default', array('class' => 'success'));
-				$this->redirect(array('action' => 'index'));
+				$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos'].' actualizado.', 'default', array('class' => 'success'));
+				return $this->redirect(array('action' => 'index'));
 			}
 			
 			$this->Session->setFlash('No se puede modificar mesero.');
@@ -71,7 +71,7 @@ class MeserosController extends AppController {
 		}
 		
 		if ($this->Mesero->delete($id)) {
-			$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos']. ' eliminado.', 'default', array('class' => 'success'));
+			$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos'].' eliminado.', 'default', array('class' => 'success'));
 			return $this->redirect(array('action' => 'index'));
 		}
 	}

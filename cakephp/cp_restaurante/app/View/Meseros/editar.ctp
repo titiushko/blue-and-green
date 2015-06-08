@@ -10,4 +10,4 @@ echo $this->Form->input('telefono');
 echo $this->Form->end('Guardar Mesero');
 ?>
 <br>
-<p><?= $this->Html->link('Listado Meseros', array('controller' => 'meseros', 'action' => 'index')); ?></p>
+<p><?= $this->Html->link('Listado de Meseros', array('controller' => 'meseros', 'action' => 'index')); ?></p>
