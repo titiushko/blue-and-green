@@ -7,6 +7,7 @@
 		<th>Nombres</th>
 		<th>Apellidos</th>
 		<th>Creado</th>
+		<th>Acción</th>
 	</tr>
 	<?php foreach ($meseros as $mesero): ?>
 	<tr>
@@ -14,6 +15,9 @@
 		<td><?= $mesero['Mesero']['nombres']; ?></td>
 		<td><?= $mesero['Mesero']['apellidos']; ?></td>
 		<td><?= $mesero['Mesero']['created']; ?></td>
+		<td>
+			<?= $this->Html->link('Ver', array('controller' => 'meseros', 'action' => 'ver', $mesero['Mesero']['id'])); ?>
+		</td>
 	</tr>
 	<?php endforeach; ?>
 </table>
