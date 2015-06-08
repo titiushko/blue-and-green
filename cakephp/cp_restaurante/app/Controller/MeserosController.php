@@ -1,6 +1,6 @@
 <?php
 class MeserosController extends AppController {
-	public $helpers = array('Html');
+	public $helpers = array('Html', 'Form', 'Time');
 	public $components = array('Session');
 	
 	function index() {
@@ -31,6 +31,32 @@ class MeserosController extends AppController {
 			}
 			
 			$this->Session->setFlash('No se pudo crear el mesero.');
+		}
+	}
+	
+	public function editar($id = null) {
+		if (!$id) {
+			throw new NotFoundException('Datos incorrectos.');
+		}
+		
+		$mesero = $this->Mesero->findById($id);
+		if (!$mesero) {
+			throw new NotFoundException('Mesero no existe.');
+		}
+		
+		if ($this->request->is(array('post', 'put'))) {
+			$this->Mesero->id = $id;
+			if ($this->Mesero->save($this->request->data)) {
+				$mesero = $this->Mesero->findById($id);
+				$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos']. ' actualizado.', 'default', array('class' => 'success'));
+				$this->redirect(array('action' => 'index'));
+			}
+			
+			$this->Session->setFlash('No se puede modificar mesero.');
+		}
+		
+		if (!$this->request->data) {
+			$this->request->data = $mesero;
 		}
 	}
 }
