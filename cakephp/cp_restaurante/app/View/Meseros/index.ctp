@@ -1,6 +1,7 @@
 <!-- File: /app/View/Meseros/index.ctp -->
 
 <h2>Listado Meseros</h2>
+<p><?= $this->Html->link('Agregar Mesero', array('controller' => 'meseros', 'action' => 'nuevo')); ?></p>
 <table>
 	<tr>
 		<th>Identificador</th>
