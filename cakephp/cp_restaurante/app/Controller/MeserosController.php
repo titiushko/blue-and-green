@@ -59,4 +59,20 @@ class MeserosController extends AppController {
 			$this->request->data = $mesero;
 		}
 	}
+	
+	function eliminar($id) {
+		if (!$this->request->is('post')) {
+			throw new MethodNotAllowedException('Incorrecto.');
+		}
+		
+		$mesero = $this->Mesero->findById($id);
+		if (!$mesero) {
+			throw new NotFoundException('Mesero no existe.');
+		}
+		
+		if ($this->Mesero->delete($id)) {
+			$this->Session->setFlash('Mesero ' .$mesero['Mesero']['nombres'].' '.$mesero['Mesero']['apellidos']. ' eliminado.', 'default', array('class' => 'success'));
+			return $this->redirect(array('action' => 'index'));
+		}
+	}
 }
