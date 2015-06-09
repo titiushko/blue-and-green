@@ -1,0 +1,143 @@
+<?php
+
+/*
+ * Facturacion en lenguaje PHP
+ * Copyright (C) 2008  Daniel Ceillán
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GNU gv; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ *   Author: Daniel Ceillán           Web Developer
+ * Internet: http://classmdp.com.ar   http://proyectohelado.com.ar
+ *   E-mail(Pay-pal): codigodaniel@gmail.com 
+ *  
+ * If you contrib or improve this software, please dont remove my name, add yours as a contributor. 
+ * 
+ * Contributors or this file:
+ * 
+ * 
+ */
+
+$modeloCake = 'proveedor';
+$modelosCake = $modeloCake.'es';
+$ModeloCake = ucfirst($modeloCake);
+$ModelosCake = $ModeloCake.'es';
+
+$pagination->setPaging($paging,"return contenido.html(this);"); // Initialize the pagination variables
+?>
+
+<h1>Lista de <?php echo $ModelosCake; ?></h1>
+	
+<div class="filtro">
+              
+                <?php
+echo $html->formTag('/proveedores','',
+array(
+'onsubmit' => "return contenido.formulario(this);"
+));					
+echo "Nombre: ".$html->input($ModeloCake.'/filtronombre', array('size' => 20, 'value' => $filtronombre));
+echo "Direccion: ".$html->input($ModeloCake.'/filtrodireccion', array('size' => 20, 'value' => $filtrodireccion));
+echo $html->hidden($ModeloCake.'/search',array('value'=>'yes'));				
+	
+                        echo $html->hidden($ModeloCake.'/search',array('value'=>'yes'));
+						$ajax_options = null;
+                        echo $html->submit('Aplicar Filtro');
+                ?>
+                </form>
+<?php echo $html->link('Nuevo '.$ModeloCake,'/'.$modelosCake.'/add');?>
+				
+        </div> 
+
+
+
+<table class="tabla">
+
+<tr>
+    <th><?php
+	echo $pagination->sortBy('nombre','Nombre');
+	?></th>
+    <th><?php
+	echo $pagination->sortBy('direccion','Dirección');
+	?></th>
+    <th><?php
+	echo $pagination->sortBy('cuit','Numero de Cuit.');
+	?></th>
+    <th>Saldo</th>
+	<!--
+    <th>E-Mail</th>
+	-->
+    <th>Acciones</th>
+</tr>
+
+<?php foreach($datos as $row)
+{
+
+?>
+<tr>
+	
+    <td><?php 
+echo $html->link($row[$ModeloCake]['nombre'],
+                               '/'.$modelosCake.'/edit/'.$row[$ModeloCake]['id']);	
+	
+	?></td>
+	
+    <td><?php echo $row[$ModeloCake]['direccion'];
+	
+	?></td>
+	
+    <td><?php echo $row[$ModeloCake]['cuit'];
+	?></td>
+    <td><?php echo saldo($row[$ModeloCake]['saldo']);
+	/* *
+	?></td>
+    <td><?php echo $row[$ModeloCake]['telefono']; 
+	?></td>
+    <td><?php echo $row[$ModeloCake]['mail'];
+	/* */
+	
+	?></td>
+
+    <td>
+
+		
+		<?php
+		accionesProveedor($html, $row);
+
+			?>
+    </td>
+</tr>
+<?php 
+}
+?>
+</table>
+
+
+
+Paginas: 
+<?php
+echo $pagination->firstPage('primera ');
+echo $pagination->prevPage('anterior ');
+echo $pagination->pageNumbers('|');
+echo $pagination->nextPage('siguiente ');
+echo $pagination->lastPage('ultima ');
+
+echo "<br>Cantidad de filas por pagina: ";
+echo $pagination->resultsPerPage('','|');
+echo "<br>Filas a la vista: ";
+echo $pagination->result('',' de ');
+
+
+
+?>

@@ -1,0 +1,25 @@
+
+			<?php 
+			
+			//if($this->params['controller'] != 'pages') echo $this->params['controller']; 
+			
+			?>
+
+			
+
+<?php		
+			//$usuario = $this->Session->read('usuario');
+
+
+
+       
+		?>
+
+        <?php if ($session->check('Message.flash')): ?>
+                Mensaje Cake: <?php echo $session->flash(); ?>
+        <?php endif; ?>
+
+        <?php echo $content_for_layout; ?>
+
+        <?php echo $cakeDebug; ?>
+

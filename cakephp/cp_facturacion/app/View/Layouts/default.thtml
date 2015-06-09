@@ -1,0 +1,164 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+  "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<!-- This Web template was developed by http://pdp.protopak.net/ -->
+<html xmlns="http://www.w3.org/1999/xhtml" lang="en" xml:lang="en">
+<head>
+<title><?php echo $title_for_layout; ?></title>
+        <?php 
+        echo $html->charsetTag('UTF-8');
+        //echo $html->css('cake.generic');
+		echo $javascript->link('precarga.js');
+		echo $html->css('plantilla');
+		echo $html->css('fixes');
+		echo $html->css('date/DatePicker');
+		/* */
+		//echo $javascript->link('pngFix.js');
+		echo $javascript->link('mootools.js');
+		echo $javascript->link('ajax.js');
+		echo $javascript->link('inicio.js');
+		echo $javascript->link('date/DatePicker.js');
+		echo $javascript->link('formularios.js');
+		/* */
+
+		?>
+</head>
+<body onload="procesado();">
+	
+	<div id="wrapper">
+		<div id="top">
+		</div>
+		<div id="content">
+			<div id="izq">
+			<div id="header">
+			
+			
+			
+			</div>
+			
+			<div id="menu" class="acordeon">
+				
+				<ul>
+	<?php 
+			echo "<li>".$html->link('Inicio','/')."</li>";
+	echo '			<h2>Facturas </h2> 	<div class="contenido">';
+echo $html->link('Facturar','/facturas/add');
+echo $html->link('Imprimir','/facturas/imprimir/1',array('target'=> '_blank'));
+//echo $html->link('Listar','/facturas');
+			echo '
+	</div>
+';
+	echo '			<h2>Configuracion </h2> 	<div class="contenido">';
+			echo $html->link('Ayuda','/condicioniva/ayuda/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			)
+			);
+			echo $html->link('Localidades','/localidades');
+			echo $html->link('Porcentaje IVA','/condicioniva');
+			echo '
+	</div>
+';
+			
+echo '			<h2>Clientes</h2> 	<div class="contenido">';
+
+			echo $html->link('Ayuda','/clientes/ayuda/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo $html->link('Listar o buscar...','/clientes/index/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo $html->link('Agregar','/clientes/add');
+
+			echo '		
+	</div>
+';
+			
+	echo '			<h2>Proveedores </h2> 	<div class="contenido">';
+			echo $html->link('Ayuda','/proveedores/ayuda/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo $html->link('Listar','/proveedores/index/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo $html->link('Agregar','/proveedores/add');
+			echo '
+	</div>
+';
+			
+echo '			<h2>Reportes </h2> 	<div class="contenido">';
+
+			echo $html->link('IVA ventas','/facturas/meses/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo $html->link('IVA compras','/compras/meses/a',
+			array(
+			'onclick'=>"return contenido.html(this);"
+			));
+			echo '
+	</div>
+';
+			
+
+		?>
+		
+	
+	</ul>
+			</div>
+			</div>
+			<div id="stuff">
+
+
+
+
+
+
+
+
+
+
+
+		
+		
+
+
+     
+     
+        <?php if ($session->check('Message.flash')): ?>
+                Mensaje Cake: <?php echo $session->flash(); ?>
+        <?php endif; ?>
+
+        <?php echo $content_for_layout; ?>
+
+        <?php echo $cakeDebug; ?>
+			
+			
+	
+
+	
+
+			</div>
+		</div>
+		<div id="bottom">
+		</div>
+	</div>
+</body>
+</html>
+	
+	
+	
+<!--
+
+		<?php 
+			echo "<li>".$html->link('Crear proveedor','/proveedores/add')."</li>";
+			echo "<li>".$html->link('Crear articulo','/articulos/add')."</li>";
+			echo "<li>".$html->link('Crear compra','/compras/add')."</li>";
+			echo "<li>".$html->link('Crear venta','/ventas/add')."</li>";
+			echo "<li>".$html->link('Calcular ganancias','/ventas/ganancias')."</li>";
+			echo "<li>".$html->link('Ver articulos agotados','/compras/agotados')."</li>";
+		?>
+ -->

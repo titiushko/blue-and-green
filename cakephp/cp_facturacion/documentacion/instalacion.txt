@@ -1,0 +1,5 @@
+1) Crear la base de datos MySql.
+2) descomprimir los archivos en una carpeta del Servidor Web. El mismo debe permitir la reescritura de Urls
+3) editar el archivo /app/config/database.php para que se pueda conectar a tu base de datos. 
+4) Hacer cafe mientras abris el navegador. ;)
+

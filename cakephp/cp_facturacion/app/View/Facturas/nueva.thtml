@@ -1,0 +1,408 @@
+<?php
+
+/*
+ * Facturacion en lenguaje PHP
+ * Copyright (C) 2008  Daniel Ceillán
+ *
+ * This program is free software; you can redistribute it and/or modify
+ * it under the terms of the GNU General Public License as published by
+ * the Free Software Foundation; either version 3 of the License, or
+ * (at your option) any later version.
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with GNU gv; see the file COPYING.  If not, write to
+ * the Free Software Foundation, Inc., 59 Temple Place - Suite 330,
+ * Boston, MA 02111-1307, USA.
+ *
+ *   Author: Daniel Ceillán           Web Developer
+ * Internet: http://classmdp.com.ar   http://proyectohelado.com.ar
+ *   E-mail(Pay-pal): codigodaniel@gmail.com 
+ *  
+ * If you contrib or improve this software, please dont remove my name, add yours as a contributor. 
+ * 
+ * Contributors or this file:
+ * 
+ * 
+ */
+ 
+$js = 'formu.actualizar();';
+
+$tipoDocumento = 'Factura';
+		if($esResumen)
+		{
+			$tipoDocumento = 'Resumen';
+			$padre['Condicioniva']['porcentaje'] = 0;
+		}
+
+/*
+	FACTURAS
+	id
+*/
+
+
+
+/*
+
+	RESUMEN
+numero = 'r'
+nombre cliente
+domicilio 
+localidad
+FECHA -----/----/200-
+
+cantidad	descripcion				valor unitario		total				
+TOTAL
+
+*/
+//para el cake
+$modeloCake = 'factura';
+$modelosCake = 'facturas';
+$ModeloCake = 'Factura';
+$ModelosCake = 'Facturas';
+//para el humano
+$modelo = 'factura';
+$modelos = 'facturas';
+$Modelo = 'Factura';
+$Modelos = 'Facturas';
+
+
+$ModeloCakePadre = 'Cliente';
+echo "&nbsp;";
+echo $error;
+?>
+<script>
+	foco();
+	formu.algoritmo = facturaForm;
+	//agregarInicio(inicioFecha);
+	facturas.length = 0;
+
+<?php
+
+if(!$esResumen)
+{
+	foreach($facturas as $factura)
+	{
+		echo 'facturas.push("'.$factura['Factura']['numero'].'");';
+	}
+}
+
+?>
+
+</script>
+<?php
+if(!$esResumen)
+{
+    echo '    <h1>Registrando Factura</h1>';
+}else
+{
+    echo '    <h1>Registrando Resumen</h1>';
+}
+	
+	//separo el texto de la etiqueta </form> porque sino se rompe el maquetado
+
+	$arreglo = array(
+			'onsubmit'=>"return formu.submit(this);"
+			);
+	/* */
+echo $html->formTag('/'.$modelosCake.'/nueva/0/'.$esResumen,'',$arreglo);
+	/* */
+	?>
+
+
+
+
+
+<div class="optional">
+<label for="VentaIdArticulo"></label>
+
+ <?php
+   //echo $html->input('/horasalida', array('size' => 50));
+  //echo $html->selectTag($ModeloCake.'/idArticulo',$articulos,$articuloSeleccionado);
+  //falta el campo seleccionado
+ ?>
+ 
+
+
+</div>
+<div class="optional"> 
+
+<?php
+ //echo '<input type="hidden" name="data['.$ModeloCake.'][ganancia]"  value="'.$elementos[$ModeloCake]['ganancia'].'" id="CompraGanancia" />';
+ 
+// echo $html->tagErrorMsg($ModeloCake.'/cantidad','La cantidad es requerida');
+/* *
+          [nombre] => el colorado
+            [telefono] => 4773300
+            [direccion] => la tota 3344
+            [condicionivaid] => 1
+            [fechafacturacion] => 
+            [cuit] => 24-45837298-4
+            [tipofacturacionid] => 3
+/* */ 
+echo '<h1>'.$padre['Condicioniva']['factura'].'</h1>';
+
+//echo 'Empresa: '.$GLOBALS['Empresa'];
+echo '<br>Nombre: '.$padre[$ModeloCakePadre]['nombre'];
+echo '<br>Dirección: '.$padre[$ModeloCakePadre]['direccion'];
+echo '<br>Localidad: '.$padre['Localidad']['nombre'];
+
+if(!$esResumen)
+{
+	echo '<br>Condicion IVA: '.$padre['Condicioniva']['que'];
+	echo '<br>Cuit: '.$padre[$ModeloCakePadre]['cuit'];
+}
+
+
+
+//echo $html->radio($ModeloCake.'/condicion',array('10' => 'malala', '58' => 'pocholo', '38' => 'mape', '76' => 'uquelele', '59' => 'pte'),'', array('size' => '10', 'onblur' => "formu.actualizar();", 'checked' => null));
+
+if(!$esResumen)
+{
+
+echo '<table border="1">';
+echo '<tr><td>Condiciones de venta:';
+echo '</td><td width="200">';
+$checked[0] = 'checked';
+$checked[1] = '';
+if($post['Factura']['condicion_venta'] == 2)
+{
+	$checked[1] = $checked[0];
+	$checked[0] = '';
+}
+echo '
+<input type="radio" name="data[Factura][condicion_venta]" id="condicion_58" '.$checked[0].' value="1" > Cuenta corriente
+<input type="radio" name="data[Factura][condicion_venta]" id="condicion_58" '.$checked[1].' value="2" > Contado
+';
+/* *
+[Factura] => Array
+                (
+                    [id] => 1
+                    [numero] => 
+                    [anulado] => 1
+                    [fecha] => 2008-02-14
+                    [nombre] => 
+                    [direccion] => 
+                    [localidad] => 
+                    [condicion_iva] => 
+                    [cuit] => 
+                    [condicion_venta] => 0
+                    [bidon8] => 
+                    [bidon8p] => 
+                    [bidon10] => 
+                    [bidon10p] => 
+                    [bidon20] => 
+                    [bidon20p] => 
+                    [dispenser] => 
+                    [dispenserp] => 
+                    [vasosx100] => 
+                    [vasosx100p] => 
+                    [sub_total] => 0.00
+                    [porcentaje_IVA] => 0
+                    [monto_IVA] => 0.00
+/* */
+echo '</tr><tr>';
+echo '</td><td>Número de factura:';
+echo '</td><td>';
+echo '<input type="text" readonly="" name="data[Factura][numero]" id="facturaNumero"  value="'.$post['Factura']['numero'].'" >';
+echo '<a href="javascript:nroFac();">Ingresar...</a>';
+echo '</td></tr>';
+echo '</table>';
+
+}else
+{
+	echo $html->hidden($ModeloCake.'/condicion_venta',array(
+			'value'=> '0'
+			));
+	echo $html->hidden($ModeloCake.'/numero',array(
+			'value'=> 'r'
+			));
+}
+
+
+echo '<table border="1"><tr><td>Articulo';
+echo '</td><td>Cantidad';
+echo '</td><td>Precio';
+echo '</td><td>Total';
+$anchoText = '10';
+echo '</td></tr><tr><td>Bidón de 8';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon8', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon8p', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon8t', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td></tr><tr><td>Bidón de 10';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon10', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon10p', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon10t', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td></tr><tr><td>Bidón de 20';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon20', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon20p', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/bidon20t', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+
+echo '</td></tr><tr><td>Dispenser Frio - Calor';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/dispenser', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/dispenserp', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/dispensert', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td></tr><tr><td>Vasos descartables x 100';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/vasosx100', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/vasosx100p', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td><td>';
+echo $html->input($ModeloCake.'/vasosx100t', array('size' => $anchoText, 'onblur' => $js, 'readonly' => 'readonly'));
+echo '</td></tr>';
+echo '</table>';
+
+echo '<table border="1">';
+
+if(!$post[$ModeloCake]['porcentaje_IVA'])
+{
+	$post[$ModeloCake]['porcentaje_IVA'] = $padre['Condicioniva']['porcentaje'];
+}
+
+if(!$esResumen)
+{
+	
+echo '<tr><td>';
+echo 'Sub-Total';
+echo '</td><td>';
+echo $html->input($ModeloCake.'/sub_total', array('size' => $anchoText, 'onkeyup' => $js, 'readonly' => 'readonly', 'value' =>$post[$ModeloCake]['sub_total']));
+echo '</td></tr>';
+
+echo '<tr><td>';
+echo 'IVA';
+echo '</td><td>';
+echo '<br>Porciento: ';
+
+echo $html->input($ModeloCake.'/porcentaje_IVA', array('size' => '10', 'onkeyup' => $js, 'readonly' => 'readonly', 'value' =>$post[$ModeloCake]['porcentaje_IVA'] ));
+echo '<br>Monto :';
+echo $html->input($ModeloCake.'/monto_IVA', array('size' => '10', 'onkeyup' => $js, 'readonly' => 'readonly', 'value' => $post[$ModeloCake]['monto_IVA']));
+echo '</td></tr>';
+}else
+{
+echo $html->hidden($ModeloCake.'/sub_total',array(
+			'value'=>$post[$ModeloCake]['sub_total']
+			));
+echo $html->hidden($ModeloCake.'/monto_IVA',array(
+			'value'=>$post[$ModeloCake]['monto_IVA']
+			));
+echo $html->hidden($ModeloCake.'/porcentaje_IVA',array(
+			'value'=>$post[$ModeloCake]['porcentaje_IVA']
+			));
+}
+
+
+echo '<tr><td>';
+echo 'Total';
+echo '</td><td>';
+
+echo $html->input($ModeloCake.'/total', array('size' => '10', 'onkeyup' => $js, 'readonly' => 'readonly'));
+echo '</td></tr>';
+
+echo '<tr><td>Fecha';
+echo '</td><td>';
+$valorOcultoFecha = null;
+if($post[$ModeloCake]['fecha'])
+{
+	$valorOcultoFecha = $post[$ModeloCake]['fecha'];
+	$valorFecha = fecha($valorOcultoFecha);
+}else
+{
+	$valorFecha = date("d/m/Y");
+}
+echo '<input name="fecha" id="fecha" size="20" class="DatePicker" readonly="readonly" value="'.$valorFecha.'" type="text"  />';
+echo $html->hidden($ModeloCake.'/fecha',array(
+			'value'=>$valorOcultoFecha
+			));
+echo '</td></tr>';
+/* *
+echo $html->checkbox($ModeloCake.'/ivaincluido', 'iva incluido en el precio');
+echo 'Los precios incluyen iva';
+echo $html->checkbox($ModeloCake.'/decontado','de contado, sin deuda');
+/* */
+echo '</table>';
+
+/*				HIDDENS				*/
+
+echo $html->hidden($ModeloCakePadre.'/id',array(
+			'value'=>$padre[$ModeloCakePadre]['id']
+			));
+echo $html->hidden($ModeloCake.'/nombre',array(
+			'value'=>$padre[$ModeloCakePadre]['nombre']
+			));
+echo $html->hidden($ModeloCake.'/direccion',array(
+			'value'=>$padre[$ModeloCakePadre]['direccion']
+			));
+echo $html->hidden($ModeloCake.'/localidad',array(
+			'value'=>$padre['Localidad']['nombre']
+			));
+echo $html->hidden($ModeloCake.'/cliente_id',array(
+			'value'=>$padre[$ModeloCakePadre]['id']
+			));
+			
+if(!$esResumen)
+{
+echo $html->hidden($ModeloCake.'/condicion_iva',array(
+			'value'=>$padre['Condicioniva']['que']
+			));
+echo $html->hidden($ModeloCake.'/IVA',array(
+			'value'=>$padre[$ModeloCakePadre]['IVA']
+			));
+echo $html->hidden($ModeloCake.'/cuit',array(
+			'value'=>$padre[$ModeloCakePadre]['cuit']
+			));
+}else
+{
+echo $html->hidden($ModeloCake.'/condicion_iva',array(
+			'value'=>' '
+			));
+echo $html->hidden($ModeloCake.'/IVA',array(
+			'value'=>'0'
+			));
+echo $html->hidden($ModeloCake.'/cuit',array(
+			'value'=>' '
+			));
+}
+
+$cantidadVentitas = 0;
+foreach($ventas as $ventita)
+{
+	echo $html->hidden('Venta/id'.$cantidadVentitas,array(
+			'value'=>$ventita['Venta']['id']
+			));
+	$cantidadVentitas++;
+}
+
+
+echo '<input type="checkbox" name="seguro" id="seguro"  value="1" />';
+echo 'Tilde para poder ejecutar el formulario...';
+
+
+?>
+</div>
+
+<div class="submit">
+<input type="submit" value="Registrar <?php echo $tipoDocumento; ?>..." />
+</div>
+
+</form>
