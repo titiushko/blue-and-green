@@ -1,16 +1,18 @@
 DROP DATABASE IF EXISTS ci_googlemaps_sidebar;
-CREATE DATABASE ci_googlemaps_sidebar DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+CREATE DATABASE IF NOT EXISTS ci_googlemaps_sidebar DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE ci_googlemaps_sidebar;
 
-CREATE TABLE IF NOT EXISTS `mapa` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `pos_x` double NOT NULL,
-  `pos_y` double NOT NULL,
-  `infowindow` text COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=11 ;
+DROP TABLE IF EXISTS mapa;
+CREATE TABLE IF NOT EXISTS mapa(
+	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	pos_x DOUBLE NOT NULL,
+	pos_y DOUBLE NOT NULL,
+	infowindow TEXT NOT NULL COLLATE utf8_spanish_ci
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-INSERT INTO `mapa` (`id`, `pos_x`, `pos_y`, `infowindow`) VALUES
+-- ============================================================================================================================================================
+
+INSERT INTO mapa (id, pos_x, pos_y, infowindow) VALUES
 (1, -3.7305078506469727, 40.355308532714844, 'Primer marker con infowindow con la librería de googlemaps para codeigniter.'),
 (2, -1.7305078506469727, 42.355308532714844, 'Segundo marker con infowindow con la librería de googlemaps para codeigniter.'),
 (3, -1.7305078506469727, 38.355308532714844, 'Tercer marker con infowindow con la librería de googlemaps para codeigniter.'),

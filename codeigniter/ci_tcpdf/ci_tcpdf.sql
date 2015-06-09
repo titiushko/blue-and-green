@@ -1,48 +1,16 @@
--- phpMyAdmin SQL Dump
--- version 3.4.5
--- http://www.phpmyadmin.net
---
--- Servidor: localhost
--- Tiempo de generación: 04-10-2012 a las 19:51:58
--- Versión del servidor: 5.5.16
--- Versión de PHP: 5.3.8
-
-SET SQL_MODE="NO_AUTO_VALUE_ON_ZERO";
-SET time_zone = "+00:00";
-
-
-/*!40101 SET @OLD_CHARACTER_SET_CLIENT=@@CHARACTER_SET_CLIENT */;
-/*!40101 SET @OLD_CHARACTER_SET_RESULTS=@@CHARACTER_SET_RESULTS */;
-/*!40101 SET @OLD_COLLATION_CONNECTION=@@COLLATION_CONNECTION */;
-/*!40101 SET NAMES utf8 */;
-
---
--- Base de datos: `pdfci`
---
-
 DROP DATABASE IF EXISTS ci_tcpdf;
--- -------------------------------------------------------------------------------------
-CREATE DATABASE ci_tcpdf DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+CREATE DATABASE IF NOT EXISTS ci_tcpdf DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE ci_tcpdf;
 
--- --------------------------------------------------------
+CREATE TABLE IF NOT EXISTS localidades_es (
+	id INT(11) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	provincia INT(11) NOT NULL,
+	localidad VARCHAR(80) NOT NULL COLLATE utf8_spanish_ci
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
---
--- Estructura de tabla para la tabla `localidades_es`
---
+-- ============================================================================================================================================================
 
-CREATE TABLE IF NOT EXISTS `localidades_es` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `provincia` int(11) NOT NULL,
-  `localidad` varchar(80) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
-) ENGINE=InnoDB  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=8123 ;
-
---
--- Volcado de datos para la tabla `localidades_es`
---
-
-INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
+INSERT INTO localidades_es (id, provincia, localidad) VALUES
 (1, 1, 'Alegría-Dulantzi'),
 (2, 1, 'Amurrio'),
 (3, 1, 'Añana'),
@@ -1966,7 +1934,7 @@ INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
 (1921, 12, 'Todolella'),
 (1922, 12, 'Toga'),
 (1923, 12, 'Torás');
-INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
+INSERT INTO localidades_es (id, provincia, localidad) VALUES
 (1924, 12, 'Toro (El)'),
 (1925, 12, 'Torralba del Pinar'),
 (1926, 12, 'Torre d''En Besora (la)'),
@@ -3881,7 +3849,7 @@ INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
 (3835, 25, 'Almenar'),
 (3836, 25, 'Alòs de Balaguer'),
 (3837, 25, 'Alpicat');
-INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
+INSERT INTO localidades_es (id, provincia, localidad) VALUES
 (3838, 25, 'Alt Àneu'),
 (3839, 25, 'Anglesola'),
 (3840, 25, 'Arbeca'),
@@ -5778,7 +5746,7 @@ INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
 (5731, 38, 'Realejos (Los)'),
 (5732, 38, 'Rosario (El)'),
 (5733, 38, 'San Andrés y Sauces');
-INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
+INSERT INTO localidades_es (id, provincia, localidad) VALUES
 (5734, 38, 'San Cristóbal de La Laguna'),
 (5735, 38, 'San Juan de la Rambla'),
 (5736, 38, 'San Miguel de Abona'),
@@ -7652,7 +7620,7 @@ INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
 (7604, 49, 'Bretocino'),
 (7605, 49, 'Brime de Sog'),
 (7606, 49, 'Brime de Urz');
-INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
+INSERT INTO localidades_es (id, provincia, localidad) VALUES
 (7607, 49, 'Burganes de Valverde'),
 (7608, 49, 'Bustillo del Oro'),
 (7609, 49, 'Cabañas de Sayago'),
@@ -8173,20 +8141,20 @@ INSERT INTO `localidades_es` (`id`, `provincia`, `localidad`) VALUES
 -- --------------------------------------------------------
 
 --
--- Estructura de tabla para la tabla `provincias_es`
+-- Estructura de tabla para la tabla provincias_es
 --
 
-CREATE TABLE IF NOT EXISTS `provincias_es` (
-  `id` int(11) NOT NULL AUTO_INCREMENT,
-  `provincia` varchar(60) COLLATE utf8_spanish_ci NOT NULL,
-  PRIMARY KEY (`id`)
+CREATE TABLE IF NOT EXISTS provincias_es (
+id INT(11) NOT NULL AUTO_INCREMENT,
+provincia VARCHAR(60) NOT NULL COLLATE utf8_spanish_ci,
+PRIMARY KEY (id)
 ) ENGINE=MyISAM  DEFAULT CHARSET=utf8 COLLATE=utf8_spanish_ci AUTO_INCREMENT=53 ;
 
 --
--- Volcado de datos para la tabla `provincias_es`
+-- Volcado de datos para la tabla provincias_es
 --
 
-INSERT INTO `provincias_es` (`id`, `provincia`) VALUES
+INSERT INTO provincias_es (id, provincia) VALUES
 (1, 'Álava'),
 (2, 'Albacete'),
 (3, 'Alicante'),
@@ -8239,7 +8207,3 @@ INSERT INTO `provincias_es` (`id`, `provincia`) VALUES
 (50, 'Zaragoza'),
 (51, 'Ceuta'),
 (52, 'Melilla');
-
-/*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
-/*!40101 SET CHARACTER_SET_RESULTS=@OLD_CHARACTER_SET_RESULTS */;
-/*!40101 SET COLLATION_CONNECTION=@OLD_COLLATION_CONNECTION */;

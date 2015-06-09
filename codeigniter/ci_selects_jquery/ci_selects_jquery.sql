@@ -1,22 +1,24 @@
 DROP DATABASE IF EXISTS ci_selects_jquery;
-CREATE DATABASE ci_selects_jquery DEFAULT CHARACTER SET latin1 COLLATE latin1_bin;
+CREATE DATABASE IF NOT EXISTS ci_selects_jquery DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE ci_selects_jquery;
 
 DROP TABLE IF EXISTS departamentos;
-CREATE TABLE IF NOT EXISTS departamentos (
-  codigo_departamento 	INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  nombre_departamento 	VARCHAR(50) COLLATE latin1_bin NOT NULL
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+CREATE TABLE IF NOT EXISTS departamentos(
+	codigo_departamento INT(2) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	nombre_departamento VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS municipios;
-CREATE TABLE IF NOT EXISTS municipios (
-  codigo_municipio 		INT(11) AUTO_INCREMENT NOT NULL PRIMARY KEY,
-  codigo_departamento 	INT(11) NOT NULL,
-  nombre_municipio 		VARCHAR(50) COLLATE latin1_bin NOT NULL,
-  CONSTRAINT pertenece FOREIGN KEY (codigo_departamento) REFERENCES departamentos (codigo_departamento) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=InnoDB DEFAULT CHARSET=latin1 COLLATE=latin1_bin;
+CREATE TABLE IF NOT EXISTS municipios(
+	codigo_municipio INT(3) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	codigo_departamento INT(2) UNSIGNED NOT NULL,
+	nombre_municipio VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
+	CONSTRAINT fk_municipios_departamentos FOREIGN KEY(codigo_departamento) REFERENCES departamentos(codigo_departamento) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
-INSERT INTO departamentos (codigo_departamento, nombre_departamento) VALUES
+-- ============================================================================================================================================================
+
+INSERT INTO departamentos(codigo_departamento, nombre_departamento) VALUES
 (1, 'Ahuachapan'),
 (2, 'Santa Ana'),
 (3, 'Sonsonate'),
@@ -32,7 +34,7 @@ INSERT INTO departamentos (codigo_departamento, nombre_departamento) VALUES
 (13, 'Morazan'),
 (14, 'La Union');
 
-INSERT INTO municipios (codigo_municipio, codigo_departamento, nombre_municipio) VALUES
+INSERT INTO municipios(codigo_municipio, codigo_departamento, nombre_municipio) VALUES
 (1, 1, 'Ahuachapan'),
 (2, 1, 'Jujutla'),
 (3, 1, 'Atiquizaya'),
