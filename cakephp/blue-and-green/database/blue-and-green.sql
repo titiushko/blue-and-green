@@ -2,12 +2,35 @@ DROP DATABASE IF EXISTS blue_green;
 CREATE DATABASE IF NOT EXISTS blue_green DEFAULT CHARACTER SET utf8 COLLATE utf8_general_ci;
 USE blue_green;
 
+DROP TABLE IF EXISTS comentarios;
+CREATE TABLE IF NOT EXISTS comentarios(
+	codigo_comentario INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	tabla_origen_comentario VARCHAR(20) NULL DEFAULT NULL,
+	codigo_tabla_origen_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
+	comentario TEXT NULL DEFAULT NULL COLLATE utf8_spanish_ci,
+	modificado_por VARCHAR(50) NULL DEFAULT NULL,
+	ultima_modificacion DATETIME NULL DEFAULT NULL,
+	INDEX fk_comentarios_personas_idx(codigo_comentario ASC),
+	INDEX fk_comentarios_preferencias_idx(codigo_comentario ASC),
+	INDEX fk_comentarios_pedidos_idx(codigo_comentario ASC),
+	INDEX fk_comentarios_articulos_idx(codigo_comentario ASC),
+	INDEX fk_comentarios_tiendas_idx(codigo_comentario ASC),
+	CONSTRAINT fk_comentarios_personas FOREIGN KEY(codigo_comentario) REFERENCES personas(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_comentarios_preferencias FOREIGN KEY(codigo_comentario) REFERENCES preferencias(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_comentarios_pedidos FOREIGN KEY(codigo_comentario) REFERENCES pedidos(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_comentarios_articulos FOREIGN KEY(codigo_comentario) REFERENCES articulos(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_comentarios_tiendas FOREIGN KEY(codigo_comentario) REFERENCES tiendas(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE	
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
 DROP TABLE IF EXISTS telefonos;
 CREATE TABLE IF NOT EXISTS telefonos(
 	codigo_telefono INT(2) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	numero_telefono VARCHAR(8) NOT NULL COMMENT 'Sin guión',
+	codigo_persona INT(2) UNSIGNED NULL DEFAULT NULL COMMENT 'De cero a muchos Telefonos pertenecen a una Persona',
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
-	ultima_modificacion DATETIME NULL DEFAULT NULL
+	ultima_modificacion DATETIME NULL DEFAULT NULL,
+	INDEX fk_telefonos_personas_idx(codigo_persona ASC),
+	CONSTRAINT fk_telefonos_personas FOREIGN KEY(codigo_persona) REFERENCES personas(codigo_persona) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS departamentos;
@@ -34,22 +57,22 @@ CREATE TABLE IF NOT EXISTS personas(
 	codigo_persona INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombres_persona VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
 	apellidos_persona VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
-	apodo_persona VARCHAR(20) NOT NULL COLLATE utf8_spanish_ci,
+	apodo_persona VARCHAR(20) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	dui_persona VARCHAR(9) NULL DEFAULT NULL COMMENT 'Sin guión',
 	sexo_persona VARCHAR(6) NULL DEFAULT NULL COMMENT 'Mujer, Hombre',
 	correo_electronico_persona VARCHAR(50) NULL DEFAULT NULL,
 	facebook_persona VARCHAR(50) NULL DEFAULT NULL,
-	codigo_telefono INT(2) UNSIGNED NULL DEFAULT NULL,
 	codigo_departamento INT(2) UNSIGNED NULL DEFAULT NULL,
 	codigo_municipio INT(3) UNSIGNED NULL DEFAULT NULL,
+	codigo_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
-	INDEX fk_personas_telefonos_idx(codigo_telefono ASC),
 	INDEX fk_personas_departamentos_idx(codigo_departamento ASC),
 	INDEX fk_personas_municipios_permisos_idx(codigo_municipio ASC),
-	CONSTRAINT fk_personas_telefonos FOREIGN KEY(codigo_telefono) REFERENCES telefonos(codigo_telefono) ON DELETE CASCADE ON UPDATE CASCADE,
+	INDEX fk_personas_comentarios_idx(codigo_comentario ASC),
 	CONSTRAINT fk_personas_departamentos FOREIGN KEY(codigo_departamento) REFERENCES departamentos(codigo_departamento) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_personas_municipios FOREIGN KEY(codigo_municipio) REFERENCES municipios(codigo_municipio) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_personas_municipios FOREIGN KEY(codigo_municipio) REFERENCES municipios(codigo_municipio) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_personas_comentarios FOREIGN KEY(codigo_comentario) REFERENCES comentarios(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS usuarios;
@@ -63,7 +86,7 @@ CREATE TABLE IF NOT EXISTS usuarios(
 	reiniciar_password_usuario BOOLEAN NOT NULL DEFAULT TRUE,
 	inactivo_usuario BOOLEAN NOT NULL DEFAULT FALSE,
 	ultima_fecha_sesion_usuario DATETIME NULL DEFAULT NULL,
-	codigo_persona INT(5) UNSIGNED NULL DEFAULT NULL,
+	codigo_persona INT(5) UNSIGNED NULL DEFAULT NULL COMMENT 'De cero a muchos Usuarios pertenecen a una Persona',
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
 	INDEX fk_usuarios_personas_idx(codigo_persona ASC),
@@ -81,69 +104,71 @@ CREATE TABLE IF NOT EXISTS roles(
 DROP TABLE IF EXISTS permisos;
 CREATE TABLE IF NOT EXISTS permisos(
 	codigo_permiso INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre_permiso VARCHAR(50) NULL DEFAULT NULL,
+	nombre_permiso VARCHAR(50) NOT NULL,
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS roles_permisos;
 CREATE TABLE IF NOT EXISTS roles_permisos(
+	codigo_rol_permiso INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	consultar TINYINT(1) NULL DEFAULT 0,
 	agregar TINYINT(1) NULL DEFAULT 0,
 	editar TINYINT(1) NULL DEFAULT 0,
 	eliminar TINYINT(1) NULL DEFAULT 0,
-	codigo_permiso INT(5) UNSIGNED NOT NULL,
-	codigo_rol INT(5) UNSIGNED NOT NULL,
-	modificado_por VARCHAR(50) NULL DEFAULT NULL,
-	ultima_modificacion DATETIME NULL DEFAULT NULL,
-	INDEX fk_roles_permisos_permisos_idx(codigo_permiso ASC),
+	codigo_rol INT(5) UNSIGNED NOT NULL COMMENT 'Un Rol puede tener de uno a muchos Permisos',
+	codigo_permiso INT(5) UNSIGNED NOT NULL COMMENT 'Un Permiso puede tener de uno a muchos Roles',
 	INDEX fk_roles_permisos_roles_idx(codigo_rol ASC),
-	CONSTRAINT fk_roles_permisos_permisos FOREIGN KEY(codigo_permiso) REFERENCES permisos(codigo_permiso) ON DELETE NO ACTION ON UPDATE NO ACTION,
-	CONSTRAINT fk_roles_permisos_roles FOREIGN KEY(codigo_rol) REFERENCES roles(codigo_rol) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+	INDEX fk_roles_permisos_permisos_idx(codigo_permiso ASC),
+	CONSTRAINT fk_roles_permisos_roles FOREIGN KEY(codigo_rol) REFERENCES roles(codigo_rol) ON DELETE NO ACTION ON UPDATE NO ACTION,
+	CONSTRAINT fk_roles_permisos_permisos FOREIGN KEY(codigo_permiso) REFERENCES permisos(codigo_permiso) ON DELETE NO ACTION ON UPDATE NO ACTION
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT 'Relación de uno a muchos Roles a uno a muchos Permisos';
 
 DROP TABLE IF EXISTS usuarios_roles;
 CREATE TABLE IF NOT EXISTS usuarios_roles(
-	codigo_usuario INT(5) UNSIGNED NOT NULL,
-	codigo_rol INT(5) UNSIGNED NOT NULL,
-	modificado_por VARCHAR(50) NULL DEFAULT NULL,
-	ultima_modificacion DATETIME NULL DEFAULT NULL,
+	codigo_usuario_rol INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	codigo_usuario INT(5) UNSIGNED NOT NULL COMMENT 'Un Usuario puede tener de uno a muchos Roles',
+	codigo_rol INT(5) UNSIGNED NOT NULL COMMENT 'Un Rol puede tener de uno a muchos Usuarios',
 	INDEX fk_usuarios_roles_usuarios_idx(codigo_usuario ASC),
 	INDEX fk_usuarios_roles_roles_idx(codigo_rol ASC),
 	CONSTRAINT fk_usuarios_roles_usuarios FOREIGN KEY(codigo_usuario) REFERENCES usuarios(codigo_usuario) ON DELETE NO ACTION ON UPDATE NO ACTION,
 	CONSTRAINT fk_usuarios_roles_roles FOREIGN KEY(codigo_rol) REFERENCES roles(codigo_rol) ON DELETE NO ACTION ON UPDATE NO ACTION
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT 'Relación de uno a muchos Usuarios a uno a muchos Roles';
 
-DROP TABLE IF EXISTS clientes;
-CREATE TABLE IF NOT EXISTS clientes(
-	codigo_cliente INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	talla_preferida_cliente VARCHAR(10) NULL DEFAULT NULL COMMENT 'Talla promedio (depende del historial de pedidos)',
-	color_preferido_cliente VARCHAR(10) NULL DEFAULT NULL COMMENT 'Color promedio (depende del historial de pedidos)',
-	ropa_preferida_cliente VARCHAR(50) NULL DEFAULT NULL COMMENT 'Ropa promedio (depende del historial de pedidos)',
-	confiable_cliente BOOLEAN NULL DEFAULT NULL COMMENT 'Buena o mala persona (depende de comentarios de otras personas)',
-	responsable_cliente BOOLEAN NULL DEFAULT NULL COMMENT 'Recoge a la fecha y hora acordada (depende del historial de pedidos)',
-	codigo_persona INT(5) UNSIGNED NOT NULL,
+DROP TABLE IF EXISTS preferencias;
+CREATE TABLE IF NOT EXISTS preferencias(
+	codigo_preferencia INT(2) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	talla_preferencia VARCHAR(10) NULL DEFAULT NULL COMMENT 'Talla promedio (depende del historial de pedidos)',
+	color_preferencia VARCHAR(10) NULL DEFAULT NULL COMMENT 'Color promedio (depende del historial de pedidos)',
+	codigo_tipo_articulo INT(5) UNSIGNED NOT NULL,
+	codigo_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
+	codigo_persona INT(5) UNSIGNED NOT NULL COMMENT 'Muchas Preferencias pertenecen a una Persona',
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
-	INDEX fk_clientes_personas_idx(codigo_persona ASC),
-	CONSTRAINT fk_clientes_personas FOREIGN KEY(codigo_persona) REFERENCES personas(codigo_persona) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+	INDEX fk_preferencias_tipos_articulos_idx(codigo_tipo_articulo ASC),
+	INDEX fk_preferencias_comentarios_idx(codigo_comentario ASC),
+	INDEX fk_preferencias_personas_idx(codigo_persona ASC),
+	CONSTRAINT fk_preferencias_tipos_articulos FOREIGN KEY(codigo_tipo_articulo) REFERENCES tipos_articulos(codigo_tipo_articulo) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_preferencias_comentarios FOREIGN KEY(codigo_comentario) REFERENCES comentarios(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_preferencias_personas FOREIGN KEY(codigo_persona) REFERENCES personas(codigo_persona) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT 'Preferencias de los Clientes (Personas)';
 
 DROP TABLE IF EXISTS pedidos;
 CREATE TABLE IF NOT EXISTS pedidos(
-	codigo_pedido INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	codigo_pedido INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	fecha_pedido DATETIME NOT NULL,
 	fecha_entrega_pedido DATETIME NOT NULL,
+	lugar_entrega_pedido VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
 	cantidad_pedido INT(3) NOT NULL COMMENT 'Sumatoria de todos los cantidad_pedido_articulo',
 	monto_pedido FLOAT(3, 2) NOT NULL COMMENT 'Sumatoria de todos los monto_pedido_articulo',
-	codigo_cliente INT(5) UNSIGNED NOT NULL,
-	codigo_pedido_articulo INT(5) UNSIGNED NOT NULL,
+	codigo_persona INT(5) UNSIGNED NOT NULL COMMENT 'Muchos Pedidos pertenecen a una Persona',
+	codigo_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
-	INDEX fk_pedidos_clientes_idx(codigo_cliente ASC),
-	INDEX fk_pedidos_pedidos_articulos_idx(codigo_pedido_articulo ASC),
-	CONSTRAINT fk_pedidos_clientes FOREIGN KEY(codigo_cliente) REFERENCES clientes(codigo_cliente) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_pedidos_pedidos_articulos FOREIGN KEY(codigo_pedido_articulo) REFERENCES pedidos_articulos(codigo_pedido_articulo) ON DELETE CASCADE ON UPDATE CASCADE
+	INDEX fk_pedidos_personas_idx(codigo_persona ASC),
+	INDEX fk_pedidos_comentarios_idx(codigo_comentario ASC),
+	CONSTRAINT fk_pedidos_personas FOREIGN KEY(codigo_persona) REFERENCES personas(codigo_persona) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_pedidos_comentarios FOREIGN KEY(codigo_comentario) REFERENCES comentarios(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS tipos_articulos;
@@ -157,8 +182,7 @@ CREATE TABLE IF NOT EXISTS tipos_articulos(
 DROP TABLE IF EXISTS articulos;
 CREATE TABLE IF NOT EXISTS articulos(
 	codigo_articulo INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
-	nombre_articulo VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
-	descripcion_articulo VARCHAR(50) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
+	nombre_articulo VARCHAR(50) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	estilo_articulo VARCHAR(20) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	talla_articulo VARCHAR(10) NOT NULL COLLATE utf8_spanish_ci,
 	color_articulo VARCHAR(10) NOT NULL COLLATE utf8_spanish_ci,
@@ -166,47 +190,58 @@ CREATE TABLE IF NOT EXISTS articulos(
 	cantidad_articulo INT(2) NOT NULL COMMENT 'cantidad_articulo - cantidad_pedido_articulo',
 	precio_compra_articulo FLOAT(3, 2) NOT NULL,
 	precio_venta_articulo FLOAT(3, 2) NOT NULL,
-	codigo_tipo_articulo INT(5) UNSIGNED NOT NULL,
-	codigo_tienda INT(5) UNSIGNED NOT NULL COMMENT 'Proveedor',
+	codigo_tipo_articulo INT(5) UNSIGNED NOT NULL COMMENT 'Muchos Articulos pertenecen un Tipo de Articulo',
+	codigo_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
 	INDEX fk_articulos_tipos_articulos_idx(codigo_tipo_articulo ASC),
-	INDEX fk_articulos_tiendas_idx(codigo_tienda ASC),
+	INDEX fk_articulos_comentarios_idx(codigo_comentario ASC),
 	CONSTRAINT fk_articulos_tipos_articulos FOREIGN KEY(codigo_tipo_articulo) REFERENCES tipos_articulos(codigo_tipo_articulo) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_articulos_tiendas FOREIGN KEY(codigo_tienda) REFERENCES tiendas(codigo_tienda) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_articulos_comentarios FOREIGN KEY(codigo_comentario) REFERENCES comentarios(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
 
 DROP TABLE IF EXISTS pedidos_articulos;
 CREATE TABLE IF NOT EXISTS pedidos_articulos(
-	codigo_pedido_articulo INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	codigo_pedido_articulo INT(10) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	cantidad_pedido_articulo INT(3) NOT NULL,
 	monto_pedido_articulo FLOAT(3, 2) NOT NULL COMMENT 'cantidad_pedido_articulo * precio_venta_articulo',
-	codigo_pedido INT(5) UNSIGNED NOT NULL COMMENT 'Factura',
-	codigo_articulo INT(5) UNSIGNED NOT NULL,
-	modificado_por VARCHAR(50) NULL DEFAULT NULL,
-	ultima_modificacion DATETIME NULL DEFAULT NULL,
+	codigo_pedido INT(5) UNSIGNED NOT NULL COMMENT 'Un Pedido (Factura) puede tener de uno a muchos Articulos',
+	codigo_articulo INT(5) UNSIGNED NOT NULL COMMENT 'Un Articulo puede estar de uno a muchos Pedidos',
 	INDEX fk_pedidos_articulos_pedidos_idx(codigo_pedido ASC),
 	INDEX fk_pedidos_articulos_articulos_idx(codigo_articulo ASC),
 	CONSTRAINT fk_pedidos_articulos_pedidos FOREIGN KEY(codigo_pedido) REFERENCES pedidos(codigo_pedido) ON DELETE CASCADE ON UPDATE CASCADE,
 	CONSTRAINT fk_pedidos_articulos_articulos FOREIGN KEY(codigo_articulo) REFERENCES articulos(codigo_articulo) ON DELETE CASCADE ON UPDATE CASCADE
-) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT 'Relación de uno a muchos Pedidos a uno a muchos Articulos';
 
 DROP TABLE IF EXISTS tiendas;
 CREATE TABLE IF NOT EXISTS tiendas(
 	codigo_tienda INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
 	nombre_tienda VARCHAR(50) NOT NULL COLLATE utf8_spanish_ci,
-	descripcion_tienda VARCHAR(50) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	estilo_tienda VARCHAR(20) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	direccion_tienda VARCHAR(100) NULL DEFAULT NULL COLLATE utf8_spanish_ci,
 	codigo_departamento INT(5) UNSIGNED NULL DEFAULT NULL,
 	codigo_municipio INT(5) UNSIGNED NULL DEFAULT NULL,
+	codigo_comentario INT(10) UNSIGNED NULL DEFAULT NULL,
 	modificado_por VARCHAR(50) NULL DEFAULT NULL,
 	ultima_modificacion DATETIME NULL DEFAULT NULL,
 	INDEX fk_tiendas_departamentos_idx(codigo_departamento ASC),
 	INDEX fk_tiendas_municipios_idx(codigo_municipio ASC),
+	INDEX fk_tiendas_comentarios_idx(codigo_comentario ASC),
 	CONSTRAINT fk_tiendas_departamentos FOREIGN KEY(codigo_departamento) REFERENCES departamentos(codigo_departamento) ON DELETE CASCADE ON UPDATE CASCADE,
-	CONSTRAINT fk_tiendas_municipios FOREIGN KEY(codigo_municipio) REFERENCES municipios(codigo_municipio) ON DELETE CASCADE ON UPDATE CASCADE
+	CONSTRAINT fk_tiendas_municipios FOREIGN KEY(codigo_municipio) REFERENCES municipios(codigo_municipio) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_tiendas_comentarios FOREIGN KEY(codigo_comentario) REFERENCES comentarios(codigo_comentario) ON DELETE CASCADE ON UPDATE CASCADE
 ) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1;
+
+DROP TABLE IF EXISTS articulos_tiendas;
+CREATE TABLE IF NOT EXISTS articulos_tiendas(
+	codigo_articulo_tienda INT(5) UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY,
+	codigo_articulo INT(5) UNSIGNED NOT NULL COMMENT 'Un Articulo puede tener de uno a muchos Tiendas',
+	codigo_tienda INT(5) UNSIGNED NOT NULL COMMENT 'Una Tienda (Proveedor) puede tener de uno a muchos Articulos',
+	INDEX fk_articulos_tiendas_articulos_idx(codigo_articulo ASC),
+	INDEX fk_articulos_tiendas_tiendas_idx(codigo_tienda ASC),
+	CONSTRAINT fk_articulos_tiendas_articulos FOREIGN KEY(codigo_articulo) REFERENCES articulos(codigo_articulo) ON DELETE CASCADE ON UPDATE CASCADE,
+	CONSTRAINT fk_articulos_tiendas_tiendas FOREIGN KEY(codigo_tienda) REFERENCES tiendas(codigo_tienda) ON DELETE CASCADE ON UPDATE CASCADE
+) ENGINE=MyISAM DEFAULT CHARSET=utf8 AUTO_INCREMENT=1 COMMENT 'Relación de uno a muchos Articulos a uno a muchos Tiendas';
 
 -- ============================================================================================================================================================
 
